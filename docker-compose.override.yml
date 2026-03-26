@@ -1,0 +1,28 @@
+services:
+
+  comfy:
+    volumes:
+      # ComfyUI sets --base-directory to /workspace
+      # Don't Overwrite /workspace/custom_nodes unless you have a preferred CPU only set
+      - /opt/data/comfyui/workspace/input:/workspace/input
+      - /opt/data/comfyui/workspace/output:/workspace/output
+      - /opt/data/comfyui/workspace/user:/workspace/user
+
+      # Use the extra_model_paths.yaml to add in external custom_nodes
+      # s6 will install the requirements.txt automatically before starting ComfyUI
+      - /opt/data/comfyui/extra_model_paths.yaml:/default-comfyui-bundle/ComfyUI/extra_model_paths.yaml
+      - /opt/ai-working/custom_nodes:/custom_nodes
+
+    environment:
+      - REPLICATE_API_TOKEN=${REPLICATE_API_TOKEN}
+      - FAL_KEY=${FAL_KEY}
+
+    labels:
+      # Traefik static config will default the rule and service names, but picks the wrong port for gui
+      - "traefik.http.services.comfy.loadbalancer.server.port=8188"
+
+
+networks:
+  default:
+    external: true
+    name: homenet

@@ -1,0 +1,10 @@
+services:
+
+  comfy:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    container_name: "comfy"
+    image: "papina/comfyui:cpu"
+    restart: unless-stopped
+
