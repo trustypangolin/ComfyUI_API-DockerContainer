@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/command/with-contenv sh
 
 set -euo pipefail
 
@@ -9,4 +9,5 @@ if [ -d "/opt/venv" ]; then
     export PATH="$VIRTUAL_ENV/bin:$PATH"
 fi
 
-exec python main.py --port=8188 --listen=0.0.0.0 --cpu --enable-manager "$@"
+cd /default-comfyui-bundle/ComfyUI
+exec python main.py --port=8188 --listen=0.0.0.0 --cpu --enable-manager --base-directory=/workspace

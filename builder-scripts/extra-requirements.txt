@@ -1,2 +1,5 @@
+# ComfyUI will complain about these being missing because it just isn't in their requirements.txt
+# I've also added comfy-cli
+
 comfy-cli
 matrix-nio

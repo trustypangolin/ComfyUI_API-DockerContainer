@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -euo pipefail
+
+echo "[INFO] === Running external custom_nodes dependencies ==="
+
+# Activate virtual environment if it exists
+if [ -d "/opt/venv" ]; then
+    echo "[INFO] Activating virtual environment at /opt/venv"
+    export VIRTUAL_ENV=/opt/venv
+    export PATH="$VIRTUAL_ENV/bin:$PATH"
+fi
+
+# Change to custom_nodes directory and install pip requirements
+if [ -d "/custom_nodes" ]; then
+    echo "[INFO] /custom_nodes mapped, installing additional requirements"
+    cd /custom_nodes
+    for dir in */; do
+        echo "Checking folder: $dir"
+        if [ -f "$dir/requirements.txt" ]; then
+            echo "  Found requirements.txt - installing..."
+            uv pip install -r "$dir/requirements.txt"
+            echo
+        else
+            echo "  No requirements.txt found"
+        fi
+    done
+else
+    echo "[WARN] /custom_nodes not found, skipping..."
+fi
+
+echo "[INFO] ===  external custom_nodes dependencies completed ==="
