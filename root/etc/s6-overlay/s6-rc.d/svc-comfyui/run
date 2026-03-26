@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Activate virtual environment if it exists
+if [ -d "/opt/venv" ]; then
+    echo "[INFO] Activating virtual environment at /opt/venv"
+    export VIRTUAL_ENV=/opt/venv
+    export PATH="$VIRTUAL_ENV/bin:$PATH"
+fi
+
+exec python main.py --port=8188 --listen=0.0.0.0 --cpu --enable-manager "$@"
